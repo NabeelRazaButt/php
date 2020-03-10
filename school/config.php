@@ -1,11 +1,9 @@
 <?php
-
+// DB connection
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "school";
-
+$DB_Name = 'school_management_system';
 // Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
+$conn = mysqli_connect($servername, $username, $password, $DB_Name);
 
-?>

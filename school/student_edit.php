@@ -1,3 +1,47 @@
+<?php
+include 'config.php';
+
+$id = $_GET['id'];
+$sql = "SELECT * FROM `student` WHERE id = ".$id;
+$results = mysqli_query($conn, $sql);
+
+
+$record = mysqli_fetch_array($results);
+/*echo "<pre>";
+print_r($_POST);*/
+if (isset($_POST['father_name'])) {
+	
+	$father_name = $_POST['father_name'];
+	$full_name = $_POST['fullname'];
+	$email = $_POST['email'];
+	$address = $_POST['address'];
+	$dob = $_POST['dob'];
+	$phone = $_POST['phone'];
+	$gender = $_POST['gender'];
+
+
+
+	$sql = "UPDATE `student` SET 
+		`phone` = '{$phone}',  
+		`email` = '{$email}',  
+		`father_name` = '{$father_name}',  
+		`address` = '{$address}',  
+		`dob` = '{$dob}',  
+		`gender` = '{$gender}',  
+		`full_name` = '{$full_name}'  
+			WHERE `student`.`id` = ".$id;
+	
+	if (mysqli_query($conn, $sql)) {
+		header("Location: students_list.php");
+	}else{
+		echo "there is an error";
+	}
+}
+
+
+?>
+
+
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -112,7 +156,7 @@ html,body
             <i class="fa fa-arrow-left" onclick="Back()"></i>
         </div>
         <p class="h2 text-center">Form</p>
-        <form action="student.php" method="post">
+        <form action="" method="post">
             <div class="preview text-center">
                 <img class="preview-img" src="http://simpleicon.com/wp-content/uploads/account.png" alt="Preview Image" width="200" height="200"/>
                 <div class="browse-button">
@@ -123,29 +167,29 @@ html,body
             </div>
             <div class="form-group">
                 <label>Full Name:</label>
-                <input class="form-control" type="text" name="fullname" required placeholder="Enter Your Full Name"/>
+                <input class="form-control" type="text" name="fullname" required placeholder="Enter Your Full Name" value="<?php echo $record['full_name']; ?>" />
                 <span class="Error"></span>
             </div>
             <div class="form-group">
                 <label>Email:</label>
-                <input class="form-control" type="email" name="email" required placeholder="Enter Your Email"/>
+                <input class="form-control" type="email" name="email" required placeholder="Enter Your Email" value="<?php echo $record['email']; ?>"/>
                 <span class="Error"></span>
             </div>
             <div class="form-group">
                 <label>Father Name:</label>
-                <input class="form-control" type="text" name="father_name" required placeholder="Enter Father Name"/>
+                <input class="form-control" type="text" name="father_name" value="<?php echo $record['father_name']; ?>" required placeholder="Enter Father Name"/>
                 <span class="Error"></span>
             </div>
 
             <div class="form-group">
                 <label>Phone:</label>
-                <input class="form-control" type="text" name="phone" required placeholder="Enter Phone"/>
+                <input class="form-control" type="text" name="phone" value="<?php echo $record['phone']; ?>" required placeholder="Enter Phone"/>
                 <span class="Error"></span>
             </div>
 
             <div class="form-group">
                 <label>DOB:</label>
-                <input class="form-control" type="text" name="dob" required placeholder="Enter DOB"/>
+                <input value="<?php echo $record['dob']; ?>" class="form-control" type="text" name="dob" required placeholder="Enter DOB"/>
                 <span class="Error"></span>
             </div>
 
@@ -153,18 +197,18 @@ html,body
 
             <div class="form-group">
                 <label>Address:</label>
-                <input class="form-control" type="text" name="address" required placeholder="Enter Address"/>
+                <input class="form-control" type="text" name="address" value="<?php echo $record['address']; ?>" required placeholder="Enter Address"/>
                 <span class="Error"></span>
             </div>
             <div class="form-group">
                 <label>Gender:</label><br/>
-                <label><input type="radio" name="gender" required value="Male" checked /> Male</label>
-                <label><input type="radio" name="gender" required value="Female" /> Female</label>
-                <label><input type="radio" name="gender" required value="Other" /> Other</label>
+                <label><input type="radio" value="<?php echo $record['gender']; ?>" name="gender" required value="Male" checked /> Male</label>
+                <label><input type="radio" value="<?php echo $record['gender']; ?>" name="gender" required value="Female" /> Female</label>
+                <label><input type="radio" value="<?php echo $record['gender']; ?>" name="gender" required value="Other" /> Other</label>
                 <span class="Error"></span>
             </div>
             <div class="form-group">
-                <input class="btn btn-primary btn-block" type="submit" value="Submit"/>
+                <input class="btn btn-primary btn-block" type="submit" value="Update"/>
             </div>
         </form>
     </div>

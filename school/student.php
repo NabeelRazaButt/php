@@ -1,33 +1,58 @@
-<?php 
+<?php
+echo "<pre>";
+print_r($_POST);
 
-$n=$_POST['fullname'];
-$fn=$_POST['fathername'];
-$em=$_POST['email'];
-$ct=$_POST['city'];
-$ph=$_POST['phone'];
-$dob=$_POST['dob'];
-$add=$_POST['address'];
-$gen=$_POST['gender'];
+
+$father_name = $_POST['father_name'];
+$full_name = $_POST['fullname'];
+$email = $_POST['email'];
+$address = $_POST['address'];
+$dob = $_POST['dob'];
+$phone = $_POST['phone'];
+$gender = $_POST['gender'];
+
+// DB connection
 
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "school";
+$DB_Name = 'school_management_system';
 
 // Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
+$conn = mysqli_connect($servername, $username, $password, $DB_Name);
+
 // Check connection
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
+}else{
+
+echo "Connected successfully";
 }
 
-$sql = "INSERT INTO `student` (`roll_no`, `name`, `f_name`, `email`, `phone`, `city`, `address`, `gender`, `dob`, `created_at`, `updated_at`) VALUES (NULL, '{$n}', '{$fn}', '{$em}', '{$ph}', '{$ct}', '{$add}', '{$gen}', '{$dob}', CURRENT_TIMESTAMP(), NULL);";
+
+// Insertion Query
+$sql = "INSERT INTO `student` (`id`, `full_name`, `email`, `phone`, `address`, `father_name`, `dob`, `gender`, `created_at`) VALUES (NULL, '{$full_name}', '{$email}', 
+		   '{$phone}', '{$address}', '{$father_name}',
+		   '{$dob}', '{$gender}', now())";
+
+
 
 if (mysqli_query($conn, $sql)) {
-    header("Location: form_student.php");
-} else {
-    echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+	echo "Record successfully entered...";
+}else{
+	echo "there is an error....";
 }
 
-mysqli_close($conn);
-?>
+
+
+
+
+
+
+
+
+
+
+
+
+
